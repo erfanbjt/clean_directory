@@ -1,6 +1,7 @@
 import json
 import shutil
 from pathlib import Path
+from typing import Union
 
 from loguru import logger
 
@@ -13,11 +14,7 @@ class OrganizeFiles:
     This class is used to organize files in a directory by
     moving files into directories based on extention.
     """
-    def __init__(self, directory):
-        self.directory = Path(directory)
-        if not self.directory.exists():
-            raise FileNotFoundError(f"{self.directory} does not exist")
-
+    def __init__(self):
         ext_dirs = read_json(DATA_DIR / "extensions.json")
         self.extensions_dest = {}
         for dir_name, ext_list in ext_dirs.items():
@@ -27,13 +24,19 @@ class OrganizeFiles:
         #print(self.extensions_dest)
 
 
-    def __call__(self):
+    def __call__(self, directory: Union[str, Path]):
         """ Organizing files in a directory by moving them
         to sub directories based on extension.
         """
-        logger.info(f"Organizing files in {self.directory}...")
+
+        directory = Path(directory)
+        if not directory.exists():
+            raise FileNotFoundError(f"{directory} does not exist")
+        
+
+        logger.info(f"Organizing files in {directory}...")
         file_extentions = []
-        for file_path in self.directory.iterdir():
+        for file_path in directory.iterdir():
 
             # Ignire directories
             if file_path.is_dir():
@@ -47,9 +50,9 @@ class OrganizeFiles:
             file_extentions.append(file_path.suffix)
 
             if file_path.suffix not in self.extensions_dest:
-                DEST_DIR = self.directory / 'other'
+                DEST_DIR = directory / 'other'
             else:
-                DEST_DIR = self.directory / self.extensions_dest[file_path.suffix]
+                DEST_DIR = directory / self.extensions_dest[file_path.suffix]
 
             DEST_DIR.mkdir(exist_ok=True)
             logger.info(f"Moving {file_path} to {DEST_DIR}...")
@@ -57,6 +60,6 @@ class OrganizeFiles:
 
 
 if __name__ == "__main__":
-    org_files = OrganizeFiles('/mnt/c/Users/erfan-pc/Downloads')
-    org_files()
+    org_files = OrganizeFiles()
+    org_files('/mnt/c/Users/erfan-pc/Downloads')
     logger.info("Done!")
