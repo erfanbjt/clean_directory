@@ -7,6 +7,7 @@ from loguru import logger
 
 from src.data import DATA_DIR
 from src.utils.io import read_json
+import sys
 
 
 class OrganizeFiles:
@@ -32,7 +33,7 @@ class OrganizeFiles:
         directory = Path(directory)
         if not directory.exists():
             raise FileNotFoundError(f"{directory} does not exist")
-        
+
 
         logger.info(f"Organizing files in {directory}...")
         file_extentions = []
@@ -61,5 +62,5 @@ class OrganizeFiles:
 
 if __name__ == "__main__":
     org_files = OrganizeFiles()
-    org_files('/mnt/c/Users/erfan-pc/Downloads')
+    org_files(sys.argv[1])
     logger.info("Done!")
