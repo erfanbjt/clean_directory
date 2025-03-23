@@ -1,0 +1,32 @@
+{
+    "images": [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        "JPG"
+    ],
+    "videos": [
+        ".mp4",
+        ".mkv",
+        ".mov"
+    ],
+    "documents": [
+        ".txt",
+        ".pdf",
+        ".doc",
+        ".docx",
+        ".xls",
+        ".xlsx",
+        ".ppt",
+        ".pptx"
+    ],
+    "compressed": [
+        ".zip",
+        ".rar"
+    ],
+    "data": [
+        ".csv",
+        ".json"
+    ]
+}
